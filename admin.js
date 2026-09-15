@@ -1,4 +1,4 @@
-const API_BASE = "https://freshfold-laundry-dgl3.onrender.com";
+const API_BASE = "https://freshfold-laundry-dgl3.onrender.com/api";
 
 const statsCard = document.getElementById("statsCard");
 const listEl = document.getElementById("adminBookingsList");

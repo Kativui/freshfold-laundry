@@ -4,7 +4,7 @@
    different host/port (e.g. when you deploy it later).
    ============================================================ */
 
-const API_BASE = "https://freshfold-laundry-dgl3.onrender.com";
+const API_BASE = "https://freshfold-laundry-dgl3.onrender.com/api";
 
 const SLOTS = [
   "08:00 - 09:00", "09:00 - 10:00", "10:00 - 11:00", "11:00 - 12:00",
