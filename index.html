@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FreshFold Laundry — Book a Pickup</title>
+<title>Mercy FreshFold Laundry — Book a Pickup</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="site-header">
-  <div class="logo">🧺 FreshFold Laundry</div>
+  <div class="logo">🧺 Mercy FreshFold Laundry</div>
   <nav>
     <button class="nav-btn active" data-section="book">Book Now</button>
     <button class="nav-btn" data-section="mybookings">My Bookings</button>
@@ -30,29 +30,29 @@
         <h2>1. Choose a Service</h2>
         <div class="service-grid" id="serviceGrid">
           <label class="service-option">
-            <input type="radio" name="service" value="wash_fold" data-price="70" data-unit="kg" required>
+            <input type="radio" name="service" value="wash_fold" data-price="50" data-unit="kg" required>
             <div class="service-card">
               <span class="service-icon">👕</span>
               <span class="service-name">Wash &amp; Fold</span>
+              <span class="service-price">KES 50 / kg</span>
+            </div>
+          </label>
+
+          <label class="service-option">
+            <input type="radio" name="service" value="wash_iron" data-price="70" data-unit="kg">
+            <div class="service-card">
+              <span class="service-icon">🧼</span>
+              <span class="service-name">Wash &amp; Iron &amp;</span>
               <span class="service-price">KES 70 / kg</span>
             </div>
           </label>
 
           <label class="service-option">
-            <input type="radio" name="service" value="wash_iron" data-price="100" data-unit="kg">
-            <div class="service-card">
-              <span class="service-icon">🧼</span>
-              <span class="service-name">Wash &amp; Iron</span>
-              <span class="service-price">KES 100 / kg</span>
-            </div>
-          </label>
-
-          <label class="service-option">
-            <input type="radio" name="service" value="dry_clean" data-price="100" data-unit="item">
+            <input type="radio" name="service" value="dry_clean" data-price="30" data-unit="item">
             <div class="service-card">
               <span class="service-icon">🧥</span>
               <span class="service-name">Dry Cleaning</span>
-              <span class="service-price">KES 100  / item</span>
+              <span class="service-price">KES 30  / item</span>
             </div>
           </label>
 
