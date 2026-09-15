@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreshFold Laundry — Book a Pickup</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">🧺 FreshFold Laundry</div>
+  <nav>
+    <button class="nav-btn active" data-section="book">Book Now</button>
+    <button class="nav-btn" data-section="mybookings">My Bookings</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ================= BOOKING SECTION ================= -->
+  <section id="book" class="section active">
+    <h1>Book Your Laundry Pickup</h1>
+    <p class="subtitle">Fast, reliable laundry service — right to your door.</p>
+
+    <form id="bookingForm" novalidate>
+
+      <!-- Step 1: Service selection -->
+      <div class="card">
+        <h2>1. Choose a Service</h2>
+        <div class="service-grid" id="serviceGrid">
+          <label class="service-option">
+            <input type="radio" name="service" value="wash_fold" data-price="70" data-unit="kg" required>
+            <div class="service-card">
+              <span class="service-icon">👕</span>
+              <span class="service-name">Wash &amp; Fold</span>
+              <span class="service-price">KES 70 / kg</span>
+            </div>
+          </label>
+
+          <label class="service-option">
+            <input type="radio" name="service" value="wash_iron" data-price="100" data-unit="kg">
+            <div class="service-card">
+              <span class="service-icon">🧼</span>
+              <span class="service-name">Wash &amp; Iron</span>
+              <span class="service-price">KES 100 / kg</span>
+            </div>
+          </label>
+
+          <label class="service-option">
+            <input type="radio" name="service" value="dry_clean" data-price="100" data-unit="item">
+            <div class="service-card">
+              <span class="service-icon">🧥</span>
+              <span class="service-name">Dry Cleaning</span>
+              <span class="service-price">KES 100  / item</span>
+            </div>
+          </label>
+
+          <label class="service-option">
+            <input type="radio" name="service" value="iron_only" data-price="50" data-unit="item">
+            <div class="service-card">
+              <span class="service-icon">🔥</span>
+              <span class="service-name">Ironing Only</span>
+              <span class="service-price">KES 50 / item</span>
+            </div>
+          </label>
+        </div>
+        <span class="error-msg" id="serviceError"></span>
+      </div>
+
+      <!-- Step 2: Quantity & options -->
+      <div class="card">
+        <h2>2. Quantity &amp; Options</h2>
+        <div class="form-row">
+          <label for="quantity">Quantity (<span id="unitLabel">kg</span>)</label>
+          <input type="number" id="quantity" name="quantity" min="1" value="1" required>
+          <span class="error-msg" id="quantityError"></span>
+        </div>
+
+        <div class="form-row checkbox-row">
+          <label>
+            <input type="checkbox" id="express" name="express">
+            Express Service (ready in 6 hours) — +50% surcharge
+          </label>
+        </div>
+
+        <div class="form-row checkbox-row">
+          <label>
+            <input type="checkbox" id="delivery" name="delivery">
+            Home Delivery (instead of self pickup) — +KES 100
+          </label>
+        </div>
+
+        <div class="form-row" id="addressRow" style="display:none;">
+          <label for="address">Delivery Address</label>
+          <textarea id="address" name="address" rows="2" placeholder="Estate, building, house/apartment no."></textarea>
+          <span class="error-msg" id="addressError"></span>
+        </div>
+      </div>
+
+      <!-- Step 3: Date & time slot -->
+      <div class="card">
+        <h2>3. Pickup Date &amp; Time Slot</h2>
+        <div class="form-row">
+          <label for="bookingDate">Date</label>
+          <input type="date" id="bookingDate" name="bookingDate" required>
+          <span class="error-msg" id="dateError"></span>
+        </div>
+
+        <div class="form-row">
+          <label>Available Time Slots</label>
+          <div class="slot-grid" id="slotGrid">
+            <p class="slot-hint">Select a date to see available slots.</p>
+          </div>
+          <input type="hidden" id="timeSlot" name="timeSlot" required>
+          <span class="error-msg" id="slotError"></span>
+        </div>
+      </div>
+
+      <!-- Step 4: Customer details -->
+      <div class="card">
+        <h2>4. Your Details</h2>
+        <div class="form-row">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" required>
+          <span class="error-msg" id="fullNameError"></span>
+        </div>
+        <div class="form-row">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="07XXXXXXXX" required>
+          <span class="error-msg" id="phoneError"></span>
+        </div>
+        <div class="form-row">
+          <label for="email">Email (optional)</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com">
+          <span class="error-msg" id="emailError"></span>
+        </div>
+      </div>
+
+      <!-- Order summary -->
+      <div class="card summary-card">
+        <h2>Order Summary</h2>
+        <div class="summary-lines" id="summaryLines">
+          <p class="slot-hint">Fill in the form to see your total.</p>
+        </div>
+        <div class="summary-total">
+          <span>Total</span>
+          <span id="summaryTotal">KES 0</span>
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Confirm Booking</button>
+    </form>
+  </section>
+
+  <!-- ================= MY BOOKINGS SECTION ================= -->
+  <section id="mybookings" class="section">
+    <h1>My Bookings</h1>
+    <p class="subtitle">Look up your bookings using your phone number.</p>
+
+    <div class="card">
+      <div class="form-row">
+        <label for="lookupPhone">Phone Number</label>
+        <input type="tel" id="lookupPhone" placeholder="07XXXXXXXX">
+      </div>
+      <button type="button" id="lookupBtn" class="submit-btn secondary-btn">Find My Bookings</button>
+    </div>
+
+    <div id="bookingsList" class="bookings-list"></div>
+  </section>
+
+</main>
+
+<!-- ================= CONFIRMATION MODAL ================= -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal">
+    <span class="modal-icon">✅</span>
+    <h2>Booking Confirmed!</h2>
+    <p>Your booking reference is:</p>
+    <p class="booking-ref" id="bookingRef"></p>
+    <div class="modal-details" id="modalDetails"></div>
+    <button type="button" id="closeModalBtn" class="submit-btn">Done</button>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <p>&copy; 2026 FreshFold Laundry. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
