@@ -136,7 +136,13 @@ h1 { margin-bottom: 4px; }
   justify-content: center;
   font-size: 2rem;
 }
- 
+ .gallery-photo {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
 .gallery-card h3 {
   margin: 0 0 6px;
   font-size: 1.05rem;
