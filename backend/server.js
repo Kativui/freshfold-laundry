@@ -16,7 +16,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
-
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 const app = express();
 const PORT = 3001;
 
@@ -68,7 +69,25 @@ function formatBooking(row) {
     createdAt: row.created_at,
   };
 }
+async function sendBookingEmail(booking) {
+  try {
+    await resend.emails.send({
+      from: "FreshFold <onboarding@resend.dev>",
+      to: "skaloki35@gmail.com",
+      subject: `New booking: ${booking.ref}`,
+      text: `New booking received.
 
+Reference: ${booking.ref}
+Customer: ${booking.fullName} (${booking.phone})
+Service: ${booking.service} — ${booking.quantity} ${booking.unit}
+Date: ${booking.date} at ${booking.timeSlot}
+Total: KES ${booking.total}
+Delivery: ${booking.delivery ? "Yes — " + booking.address : "No (self pickup)"}`,
+    });
+  } catch (err) {
+    console.error("Failed to send booking email:", err);
+  }
+}
 /* ---------------- Routes ---------------- */
 
 // Available / taken time slots for a given date
@@ -152,8 +171,12 @@ app.post("/api/bookings", async (req, res) => {
       ]
     );
 
-    const [rows] = await pool.query("SELECT * FROM bookings WHERE ref = ?", [ref]);
-    res.status(201).json(formatBooking(rows[0]));
+       const [rows] = await pool.query("SELECT * FROM bookings WHERE ref = ?", [ref]);
+    const newBooking = formatBooking(rows[0]);
+
+    sendBookingEmail(newBooking);
+
+    res.status(201).json(newBooking);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "database error" });
