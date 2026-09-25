@@ -1,3 +1,4 @@
+const ADMIN_KEY = prompt("Enter admin key:");
 const API_BASE = "https://freshfold-laundry-dgl3.onrender.com/api";
 
 const statsCard = document.getElementById("statsCard");
@@ -5,7 +6,9 @@ const listEl = document.getElementById("adminBookingsList");
 
 async function loadBookings() {
   try {
-    const res = await fetch(`${API_BASE}/admin/bookings`);
+    const res = await fetch(`${API_BASE}/admin/bookings`, {
+  headers: { "x-admin-key": ADMIN_KEY }
+});
     const bookings = await res.json();
     renderStats(bookings);
     renderList(bookings);

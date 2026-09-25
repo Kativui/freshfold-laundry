@@ -12,7 +12,7 @@
      DELETE /api/admin/bookings/:ref    -> permanently delete one booking
      DELETE /api/admin/bookings         -> permanently delete ALL bookings
    ============================================================ */
-
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const pool = require("./db");
@@ -72,6 +72,13 @@ function formatBooking(row) {
 /* ---------------- Routes ---------------- */
 
 // Available / taken time slots for a given date
+function requireAdmin(req, res, next) {
+  const key = req.headers["x-admin-key"];
+  if (key !== process.env.ADMIN_KEY) {
+    return res.status(401).json({ error: "unauthorized" });
+  }
+  next();
+}
 app.get("/api/slots", async (req, res) => {
   const { date } = req.query;
   if (!date) return res.status(400).json({ error: "date is required" });
@@ -190,7 +197,7 @@ app.patch("/api/bookings/:ref/cancel", async (req, res) => {
 });
 
 // Business/admin view — every booking, from every customer
-app.get("/api/admin/bookings", async (req, res) => {
+app.get("/api/admin/bookings",requireAdmin ,async (req, res) => {
   try {
     const [rows] = await pool.query("SELECT * FROM bookings ORDER BY created_at DESC");
     res.json(rows.map(formatBooking));
@@ -201,7 +208,7 @@ app.get("/api/admin/bookings", async (req, res) => {
 });
 
 // Permanently delete a single booking (admin only)
-app.delete("/api/admin/bookings/:ref", async (req, res) => {
+app.delete("/api/admin/bookings/:ref",requireAdmin ,async (req, res) => {
   const { ref } = req.params;
 
   try {
@@ -215,7 +222,7 @@ app.delete("/api/admin/bookings/:ref", async (req, res) => {
 });
 
 // Permanently delete ALL bookings (admin only — use with care)
-app.delete("/api/admin/bookings", async (req, res) => {
+app.delete("/api/admin/bookings",requireAdmin ,async (req, res) => {
   try {
     await pool.query("DELETE FROM bookings");
     res.json({ message: "all bookings cleared" });
